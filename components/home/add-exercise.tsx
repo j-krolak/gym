@@ -38,8 +38,8 @@ export const AddExercises: React.FC = () => {
   const [exerciseOptions, setExerciseOptions] = useState<ExerciseOption[]>(
     exercises.map((exercise) => ({
       exercise: exercise,
-      checked: exercisesStore.includes(exercise),
-      disabled: exercisesStore.includes(exercise),
+      checked: exercisesStore.some((val) => val.exercise.id === exercise.id),
+      disabled: exercisesStore.some((val) => val.exercise.id === exercise.id),
     }))
   );
 
@@ -72,7 +72,7 @@ export const AddExercises: React.FC = () => {
         .filter(
           (exercise) =>
             exercise.checked === true &&
-            !exercisesStore.includes(exercise.exercise)
+            !exercisesStore.some((val) => val.exercise === exercise.exercise)
         )
         .map((val) => val.exercise)
     );
@@ -84,7 +84,8 @@ export const AddExercises: React.FC = () => {
       <View
         className={cn(
           "absolute z-50 bottom-5 right-5 ",
-          !exerciseOptions.some((val) => val.checked) && "invisible"
+          !exerciseOptions.some((val) => val.checked && !val.disabled) &&
+            "invisible"
         )}
       >
         <Button onPress={handleAddExercises}>
