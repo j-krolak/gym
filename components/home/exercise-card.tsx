@@ -39,11 +39,27 @@ export const ExerciseCard: React.FC<ExerciseCardProps> = ({
   };
 
   return (
-    <Card>
+    <Card className="rounded-3xl border-0 bg-secondary/50">
       <CardHeader>
         <View className="flex flex-row items-center justify-between">
           <CardTitle>{exercise.name}</CardTitle>
-          <View>
+          <View className="flex flex-row gap-1">
+            <Button
+              size={"icon"}
+              className="bg-transparent"
+              onPress={onMoveUp}
+              disabled={!onMoveUp}
+            >
+              <ChevronUp color={"white"} size={20} />
+            </Button>
+            <Button
+              size={"icon"}
+              className="bg-transparent"
+              onPress={onMoveDown}
+              disabled={!onMoveDown}
+            >
+              <ChevronDown size={20} color={"white"} />
+            </Button>
             <Dialog>
               <DialogTrigger asChild>
                 <Button size={"icon"} className="bg-transparent">
@@ -82,7 +98,7 @@ export const ExerciseCard: React.FC<ExerciseCardProps> = ({
       </CardHeader>
       <CardContent>
         <View>
-          <View className="flex flex-row items-center justify-between border-b border-b-muted py-4">
+          <View className="flex flex-row items-center justify-between border-b border-b-foreground/30 py-4">
             <View className="px-3">
               <Text>Set</Text>
             </View>
@@ -115,35 +131,16 @@ export const ExerciseCard: React.FC<ExerciseCardProps> = ({
         </View>
       </CardContent>
       <CardFooter>
-        <View className="flex w-full flex-col gap-4">
-          <View className="flex w-full items-center justify-center">
-            <Button
-              className="flex flex-row gap-2"
-              size={"sm"}
-              onPress={handleAddingSet}
-            >
-              <Plus size={20} />
-              <Text className="text-lg">Add set</Text>
-            </Button>
-          </View>
-          <View className="flex w-full flex-row gap-6">
-            <Button
-              size={"icon"}
-              className="bg-transparent"
-              onPress={onMoveUp}
-              disabled={!onMoveUp}
-            >
-              <ChevronUp color={"white"} size={30} />
-            </Button>
-            <Button
-              size={"icon"}
-              className="bg-transparent"
-              onPress={onMoveDown}
-              disabled={!onMoveDown}
-            >
-              <ChevronDown size={30} color={"white"} />
-            </Button>
-          </View>
+        <View className="flex w-full items-center justify-center pt-5">
+          <Button
+            className="flex w-full flex-row gap-2"
+            size={"sm"}
+            onPress={handleAddingSet}
+            variant={"secondary"}
+          >
+            <Plus size={20} color={"white"} />
+            <Text className="text-secondary-foreground">Add set</Text>
+          </Button>
         </View>
       </CardFooter>
     </Card>
@@ -187,7 +184,10 @@ const SetRow: React.FC<SetRowProps> = ({ id, exercise, data, onDataChange }) => 
   };
 
   return (
-    <View className="flex flex-row items-center justify-between border-b border-dashed border-b-muted py-4">
+    <View
+      className="flex flex-row items-center justify-between border-b border-dashed border-b-foreground/30
+        py-4"
+    >
       <View className="px-4">
         <Text className="text-lg">{id}</Text>
       </View>
@@ -195,7 +195,7 @@ const SetRow: React.FC<SetRowProps> = ({ id, exercise, data, onDataChange }) => 
         {exercise.fields?.time && (
           <Input
             placeholder="60"
-            className="!w-20"
+            className="!w-20 bg-background/50"
             value={data.time === 0 ? "" : data.time.toString()}
             onChangeText={handleInputChange.bind(null, "time")}
             aria-labelledby="inputLabel"
@@ -206,7 +206,7 @@ const SetRow: React.FC<SetRowProps> = ({ id, exercise, data, onDataChange }) => 
         {exercise.fields?.weight && (
           <Input
             placeholder="12"
-            className="!w-20"
+            className="!w-20 bg-background/50"
             value={data.weight === 0 ? "" : data.weight.toString()}
             onChangeText={handleInputChange.bind(null, "weight")}
             aria-labelledby="inputLabel"
@@ -217,7 +217,7 @@ const SetRow: React.FC<SetRowProps> = ({ id, exercise, data, onDataChange }) => 
         {exercise.fields?.reps && (
           <Input
             placeholder="12"
-            className="!w-20"
+            className="!w-20 bg-background/50"
             value={data.reps === 0 ? "" : data.reps.toString()}
             onChangeText={handleInputChange.bind(null, "reps")}
             aria-labelledby="inputLabel"

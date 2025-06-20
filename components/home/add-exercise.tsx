@@ -1,12 +1,12 @@
-import React, { useMemo, useState } from "react";
+import React, { useCallback, useLayoutEffect, useMemo, useState } from "react";
 import { exercises } from "~/lib/exercises";
 import { cn } from "~/lib/utils";
 import { useWorkoutStore } from "~/store/workoutStore";
 import { Exercise } from "~/types/exercise";
 import { useNavigation } from "expo-router";
-import { FlatList, View } from "react-native";
+import { Plus } from "lucide-react-native";
+import { FlatList, Pressable, View } from "react-native";
 
-import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Text } from "../ui/text";
 import { ExerciseButton } from "./exercise-button";
@@ -42,6 +42,25 @@ export const AddExercises: React.FC = () => {
     [search],
   );
 
+  useLayoutEffect(() => {
+    const disabled = !exerciseOptions.some((val) => val.checked && !val.disabled);
+    navigation.setOptions({
+      headerRight: () => (
+        <Pressable
+          onPress={handleAddExercises}
+          className={cn(
+            "flex flex-row items-center justify-center gap-2 px-6",
+            disabled && "opacity-50",
+          )}
+        >
+          <Text className="text-lg font-semibold text-blue-500">Add</Text>
+
+          <Plus color={"#3b82f6"} size={17} strokeWidth={2.5} />
+        </Pressable>
+      ),
+    });
+  }, [navigation, exerciseOptions, handleAddExercises]);
+
   const handleExerciseCheck = (exercise: Exercise, checked: boolean) => {
     setExerciseOptions((prevExercises) =>
       prevExercises.map((prev) =>
@@ -52,7 +71,7 @@ export const AddExercises: React.FC = () => {
     );
   };
 
-  const handleAddExercises = () => {
+  const handleAddExercises = useCallback(() => {
     addExercises(
       exerciseOptions
         .filter(
@@ -63,20 +82,10 @@ export const AddExercises: React.FC = () => {
         .map((val) => val.exercise),
     );
     navigation.goBack();
-  };
+  }, [exerciseOptions, addExercises, navigation, exercisesStore]);
 
   return (
     <View className="flex-1">
-      <View
-        className={cn(
-          "absolute bottom-5 right-5 z-50",
-          !exerciseOptions.some((val) => val.checked && !val.disabled) && "invisible",
-        )}
-      >
-        <Button onPress={handleAddExercises}>
-          <Text>Add</Text>
-        </Button>
-      </View>
       <View className="p-6">
         <Input
           placeholder="Search..."
@@ -89,7 +98,7 @@ export const AddExercises: React.FC = () => {
       <View className="w-full flex-1 p-2">
         <FlatList
           className="w-full"
-          contentContainerClassName="pb-24"
+          contentContainerStyle={{ paddingBottom: 150 }}
           data={exerciseOptions.filter(({ exercise }) =>
             searchedExercises.includes(exercise),
           )}

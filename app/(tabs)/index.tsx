@@ -6,9 +6,13 @@ const Stack = createStackNavigator();
 
 export default function HomeScreen() {
   return (
-    <Stack.Navigator screenOptions={{ headerTitleAlign: "center" }}>
+    <Stack.Navigator screenOptions={{}}>
       <Stack.Screen name="Workout" component={Workout} />
-      <Stack.Screen name="Add exercises" component={AddExercises} />
+      <Stack.Screen
+        name="Add exercises"
+        options={{ headerTitle: () => null }}
+        component={AddExercises}
+      />
     </Stack.Navigator>
   );
 }

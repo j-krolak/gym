@@ -1,4 +1,5 @@
 import { useTheme } from "@react-navigation/native";
+import { TabBar } from "~/components/TabBar";
 import { Tabs } from "expo-router";
 import {
   ChartNoAxesColumn,
@@ -8,17 +9,19 @@ import {
   Ruler,
 } from "lucide-react-native";
 
-const ACTIVE_TABS_COLOR = "blue";
+export const ACTIVE_TABS_COLOR = "#FF4D4D";
 
 export default function RootLayout() {
   const theme = useTheme();
   return (
     <Tabs
+      tabBar={(props) => <TabBar {...props} />}
       screenOptions={({ route }) => ({
         headerShown: false,
         tabBarLabelPosition: "below-icon",
         tabBarInactiveTintColor: theme.colors.text,
         tabBarActiveTintColor: ACTIVE_TABS_COLOR,
+
         tabBarIcon: ({ focused, color, size }) => {
           switch (route.name) {
             case "stats":
@@ -41,6 +44,7 @@ export default function RootLayout() {
               return <Ruler color={focused ? ACTIVE_TABS_COLOR : theme.colors.text} />;
           }
         },
+        tabBarShowLabel: false,
       })}
       initialRouteName="index"
     >

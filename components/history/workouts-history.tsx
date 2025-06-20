@@ -30,8 +30,8 @@ export default function WorkoutsHistory() {
   console.log(workoutsHistory);
 
   return (
-    <ScrollView>
-      <View className="flex flex-1 gap-4 bg-secondary/30 p-6">
+    <ScrollView contentContainerStyle={{ paddingBottom: 150 }} className="flex-1">
+      <View className="flex gap-4 p-6">
         {sortedWorkoutsHistory?.map((workout, i) => (
           <Card key={workout.date.toString()}>
             <CardHeader>

@@ -6,6 +6,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import { useWorkoutStore } from "../../store/workoutStore";
 import { Button } from "../ui/button";
 import { Text } from "../ui/text";
+import { AnimatedChevronDown } from "./animated-chevron-down";
 import { ExerciseCard } from "./exercise-card";
 
 export function Workout() {
@@ -28,9 +29,14 @@ export function Workout() {
   };
 
   return (
-    <>
-      <ScrollView className="flex-1 bg-secondary/30" contentContainerClassName="py-6">
-        <View className="flex gap-5 p-2">
+    <View className="h-screen">
+      <ScrollView
+        contentContainerClassName="py-6 min-h-full"
+        contentContainerStyle={{
+          paddingBottom: 150,
+        }}
+      >
+        <View className="flex gap-3 px-3">
           {exercises.map((exercise, i) => (
             <ExerciseCard
               exerciseLog={exercise}
@@ -47,6 +53,13 @@ export function Workout() {
             />
           ))}
         </View>
+
+        {exercises.length === 0 && (
+          <View className="flex h-1/3 items-center justify-end gap-2 py-2">
+            <Text className="text-3xl font-semibold">Start your workout</Text>
+            <AnimatedChevronDown />
+          </View>
+        )}
         <View className="mt-6 gap-6 px-6">
           <Button onPress={() => navigator.navigate("Add exercises")}>
             <Text>Add exercises</Text>
@@ -58,7 +71,6 @@ export function Workout() {
           )}
         </View>
       </ScrollView>
-      {/* {showDeleteDialog && <DeleteExerciseDialog />} */}
-    </>
+    </View>
   );
 }
