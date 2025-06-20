@@ -1,8 +1,7 @@
-import { useRoute } from "@react-navigation/native";
 import React from "react";
-import { View } from "react-native";
+import { useRoute } from "@react-navigation/native";
 import { Text } from "~/components/ui/text";
-import { exercises } from "~/lib/exercises";
+import { View } from "react-native";
 
 export const GymLogForm: React.FC = () => {
   const route = useRoute();

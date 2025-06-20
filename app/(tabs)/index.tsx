@@ -1,10 +1,6 @@
-import { ScrollView, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { Button } from "~/components/ui/button";
-import { Text } from "~/components/ui/text";
 import { createStackNavigator } from "@react-navigation/stack";
-import { Workout } from "~/components/home/workout";
 import { AddExercises } from "~/components/home/add-exercise";
+import { Workout } from "~/components/home/workout";
 
 const Stack = createStackNavigator();
 

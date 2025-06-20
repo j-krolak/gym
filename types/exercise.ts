@@ -1,4 +1,4 @@
-type FieldType = "time" | "weight" | "reps";
+export type FieldType = "time" | "weight" | "reps";
 
 export type Exercise = {
   id: string;
@@ -6,7 +6,11 @@ export type Exercise = {
   fields: Partial<Record<FieldType, boolean>>;
 };
 
+export type ExerciseSet = { [K in FieldType]: number } & {
+  done: boolean;
+};
+
 export type ExerciseLog = {
   exercise: Exercise;
-  sets: { [K in FieldType]: number }[];
+  sets: ExerciseSet[];
 };

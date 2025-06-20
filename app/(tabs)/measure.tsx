@@ -1,10 +1,13 @@
+import { ThemeToggle } from "~/components/ThemeToggle";
 import { View } from "react-native";
-import { Text } from "~/components/ui/text";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function MeasureScreen() {
   return (
-    <View>
-      <Text>Measure</Text>
-    </View>
+    <SafeAreaView>
+      <View className="flex p-6">
+        <ThemeToggle />
+      </View>
+    </SafeAreaView>
   );
 }

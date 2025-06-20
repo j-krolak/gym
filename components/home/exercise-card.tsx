@@ -1,25 +1,10 @@
-import { Exercise, ExerciseLog } from "~/types/exercise";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "../ui/card";
-import { Input } from "../ui/input";
-import { View } from "react-native";
-import { Text } from "../ui/text";
-import { useState } from "react";
-import { Button } from "../ui/button";
-import {
-  ChevronDown,
-  ChevronUp,
-  Plus,
-  PlusCircle,
-  Trash,
-  X,
-} from "lucide-react-native";
 import { useWorkoutStore } from "~/store/workoutStore";
+import { Exercise, ExerciseLog, ExerciseSet, FieldType } from "~/types/exercise";
+import { ChevronDown, ChevronUp, Plus, X } from "lucide-react-native";
+import { View } from "react-native";
+
+import { Button } from "../ui/button";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "../ui/card";
 import { Checkbox } from "../ui/checkbox";
 import {
   Dialog,
@@ -31,6 +16,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../ui/dialog";
+import { Input } from "../ui/input";
+import { Text } from "../ui/text";
 
 type ExerciseCardProps = {
   exerciseLog: ExerciseLog;
@@ -45,7 +32,7 @@ export const ExerciseCard: React.FC<ExerciseCardProps> = ({
   onMoveDown,
   onDelete,
 }) => {
-  const { addSet } = useWorkoutStore();
+  const { addSet, updateSet } = useWorkoutStore();
   const { exercise, sets } = exerciseLog;
   const handleAddingSet = () => {
     addSet(exercise);
@@ -54,7 +41,7 @@ export const ExerciseCard: React.FC<ExerciseCardProps> = ({
   return (
     <Card>
       <CardHeader>
-        <View className="flex flex-row justify-between items-center">
+        <View className="flex flex-row items-center justify-between">
           <CardTitle>{exercise.name}</CardTitle>
           <View>
             <Dialog>
@@ -67,12 +54,11 @@ export const ExerciseCard: React.FC<ExerciseCardProps> = ({
                 <DialogHeader>
                   <DialogTitle>Delete exercise?</DialogTitle>
                   <DialogDescription>
-                    Are you sure you want to delete "{exercise.name}" from this
-                    workout?
+                    Are you sure you want to delete "{exercise.name}" from this workout?
                   </DialogDescription>
                 </DialogHeader>
                 <DialogFooter>
-                  <View className="flex flex-row gap-5 justify-center">
+                  <View className="flex flex-row justify-center gap-5">
                     <DialogClose asChild>
                       <Button
                         onPress={onDelete}
@@ -96,19 +82,19 @@ export const ExerciseCard: React.FC<ExerciseCardProps> = ({
       </CardHeader>
       <CardContent>
         <View>
-          <View className="flex flex-row justify-between items-center border-b-muted py-4 border-b">
+          <View className="flex flex-row items-center justify-between border-b border-b-muted py-4">
             <View className="px-3">
               <Text>Set</Text>
             </View>
-            <View className="flex flex-row gap-4 items-center">
+            <View className="flex flex-row items-center gap-4">
               {exercise.fields?.time && (
-                <View className="w-20 flex flex-row gap-1 items-baseline">
+                <View className="flex w-20 flex-row items-baseline gap-1">
                   <Text>Time</Text>
                   <Text className="text-sm text-muted-foreground">(min)</Text>
                 </View>
               )}
               {exercise.fields?.weight && (
-                <View className="w-20 flex flex-row gap-1 items-baseline">
+                <View className="flex w-20 flex-row items-baseline gap-1">
                   <Text>Weight</Text>
                   <Text className="text-sm text-muted-foreground">(kg)</Text>
                 </View>
@@ -117,24 +103,30 @@ export const ExerciseCard: React.FC<ExerciseCardProps> = ({
               <Text className="w-10">Done</Text>
             </View>
           </View>
-          {sets.map((_, i) => (
-            <SetRow exercise={exercise} key={i} id={i + 1} />
+          {sets.map((set, i) => (
+            <SetRow
+              exercise={exercise}
+              key={i}
+              id={i + 1}
+              data={set}
+              onDataChange={updateSet.bind(null, exerciseLog, i)}
+            />
           ))}
         </View>
       </CardContent>
       <CardFooter>
-        <View className="flex flex-col w-full gap-4">
-          <View className="flex justify-center items-center w-full ">
+        <View className="flex w-full flex-col gap-4">
+          <View className="flex w-full items-center justify-center">
             <Button
               className="flex flex-row gap-2"
               size={"sm"}
               onPress={handleAddingSet}
             >
               <Plus size={20} />
-              <Text className="text-lg ">Add set</Text>
+              <Text className="text-lg">Add set</Text>
             </Button>
           </View>
-          <View className="flex flex-row gap-6 w-full ">
+          <View className="flex w-full flex-row gap-6">
             <Button
               size={"icon"}
               className="bg-transparent"
@@ -161,25 +153,51 @@ export const ExerciseCard: React.FC<ExerciseCardProps> = ({
 type SetRowProps = {
   id: number;
   exercise: Exercise;
+  data: ExerciseSet;
+  onDataChange: (data: ExerciseSet) => void;
 };
-const SetRow: React.FC<SetRowProps> = ({ id, exercise }) => {
-  const [weight, setWeight] = useState("");
-  const [reps, setReps] = useState("");
-  const [time, setTime] = useState("");
-  const [done, setDone] = useState<boolean>(false);
+
+const SetRow: React.FC<SetRowProps> = ({ id, exercise, data, onDataChange }) => {
+  const handleInputChange = (
+    fieldType: FieldType | "done",
+    value: string | boolean,
+  ) => {
+    if (fieldType === "done") {
+      onDataChange({ ...data, done: Boolean(value) });
+      return;
+    }
+
+    const parsedValue: number = Number(value) ?? 0;
+
+    switch (fieldType) {
+      case "reps":
+        onDataChange({ ...data, reps: parsedValue });
+        break;
+      case "time":
+        console.log(parsedValue);
+        onDataChange({
+          ...data,
+          time: parsedValue,
+        });
+        break;
+      case "weight":
+        onDataChange({ ...data, weight: parsedValue });
+        break;
+    }
+  };
 
   return (
-    <View className="flex flex-row justify-between items-center border-b-muted py-4 border-b border-dashed ">
+    <View className="flex flex-row items-center justify-between border-b border-dashed border-b-muted py-4">
       <View className="px-4">
         <Text className="text-lg">{id}</Text>
       </View>
-      <View className="flex flex-row gap-4 items-center">
+      <View className="flex flex-row items-center gap-4">
         {exercise.fields?.time && (
           <Input
-            placeholder="12"
+            placeholder="60"
             className="!w-20"
-            value={time}
-            onChangeText={setTime}
+            value={data.time === 0 ? "" : data.time.toString()}
+            onChangeText={handleInputChange.bind(null, "time")}
             aria-labelledby="inputLabel"
             aria-errormessage="inputError"
             keyboardType="numeric"
@@ -189,8 +207,8 @@ const SetRow: React.FC<SetRowProps> = ({ id, exercise }) => {
           <Input
             placeholder="12"
             className="!w-20"
-            value={weight}
-            onChangeText={setWeight}
+            value={data.weight === 0 ? "" : data.weight.toString()}
+            onChangeText={handleInputChange.bind(null, "weight")}
             aria-labelledby="inputLabel"
             aria-errormessage="inputError"
             keyboardType="numeric"
@@ -200,18 +218,18 @@ const SetRow: React.FC<SetRowProps> = ({ id, exercise }) => {
           <Input
             placeholder="12"
             className="!w-20"
-            value={reps}
-            onChangeText={setReps}
+            value={data.reps === 0 ? "" : data.reps.toString()}
+            onChangeText={handleInputChange.bind(null, "reps")}
             aria-labelledby="inputLabel"
             aria-errormessage="inputError"
             keyboardType="numeric"
           />
         )}
-        <View className="w-10 flex items-center justify-center">
+        <View className="flex w-10 items-center justify-center">
           <Checkbox
-            className="!w-7 !h-7"
-            checked={done}
-            onCheckedChange={setDone}
+            className="!h-7 !w-7"
+            checked={data.done}
+            onCheckedChange={handleInputChange.bind(null, "done")}
           />
         </View>
       </View>

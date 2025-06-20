@@ -10,9 +10,14 @@
     "ios": "expo start -c --ios",
     "web": "expo start -c --web",
     "clean": "rm -rf .expo node_modules",
-    "postinstall": "npx tailwindcss -i ./global.css -o ./node_modules/.cache/nativewind/global.css"
+    "postinstall": "npx tailwindcss -i ./global.css -o ./node_modules/.cache/nativewind/global.css",
+    "format": "prettier . --check",
+    "format:fix": "prettier . --write",
+    "lint": "expo lint",
+    "lint:fix": "expo lint --fix"
   },
   "dependencies": {
+    "@react-native-async-storage/async-storage": "^2.2.0",
     "@react-navigation/drawer": "^7.4.2",
     "@react-navigation/native": "^7.0.0",
     "@react-navigation/stack": "^7.3.4",
@@ -56,8 +61,22 @@
   },
   "devDependencies": {
     "@babel/core": "^7.26.0",
+    "@eslint/js": "^9.29.0",
+    "@eslint/json": "^0.12.0",
+    "@ianvs/prettier-plugin-sort-imports": "^4.4.2",
     "@types/react": "~19.0.14",
-    "typescript": "^5.8.3"
+    "eslint": "^9.29.0",
+    "eslint-config-expo": "~9.2.0",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-unused-imports": "^4.1.4",
+    "globals": "^16.2.0",
+    "prettier": "^3.5.3",
+    "prettier-plugin-classnames": "^0.7.9",
+    "prettier-plugin-merge": "^0.7.4",
+    "prettier-plugin-sort-imports": "^1.8.8",
+    "prettier-plugin-tailwindcss": "^0.6.13",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.34.1"
   },
   "private": true
 }

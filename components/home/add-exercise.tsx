@@ -1,29 +1,15 @@
-import React, { memo, useMemo, useState } from "react";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "../ui/select";
-import { Text } from "../ui/text";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { FlatList, View } from "react-native";
-import { Label } from "../ui/label";
-import { Input } from "../ui/input";
+import React, { useMemo, useState } from "react";
 import { exercises } from "~/lib/exercises";
-import { Button } from "../ui/button";
-import { ArrowRight, Plus } from "lucide-react-native";
-import { useNavigation } from "expo-router";
-import { ScrollView } from "react-native-gesture-handler";
-import { ExerciseButton } from "./exercise-button";
-import { extendTailwindMerge } from "tailwind-merge";
-import { Exercise } from "~/types/exercise";
-import { enableFreeze } from "react-native-screens";
 import { cn } from "~/lib/utils";
 import { useWorkoutStore } from "~/store/workoutStore";
+import { Exercise } from "~/types/exercise";
+import { useNavigation } from "expo-router";
+import { FlatList, View } from "react-native";
+
+import { Button } from "../ui/button";
+import { Input } from "../ui/input";
+import { Text } from "../ui/text";
+import { ExerciseButton } from "./exercise-button";
 
 type ExerciseOption = {
   exercise: Exercise;
@@ -40,7 +26,7 @@ export const AddExercises: React.FC = () => {
       exercise: exercise,
       checked: exercisesStore.some((val) => val.exercise.id === exercise.id),
       disabled: exercisesStore.some((val) => val.exercise.id === exercise.id),
-    }))
+    })),
   );
 
   const searchedExercises = useMemo(
@@ -51,9 +37,9 @@ export const AddExercises: React.FC = () => {
             exercise.name
               .replaceAll(" ", "")
               .toLowerCase()
-              .includes(search.toLocaleLowerCase().replaceAll(" ", ""))
+              .includes(search.toLocaleLowerCase().replaceAll(" ", "")),
           ),
-    [search]
+    [search],
   );
 
   const handleExerciseCheck = (exercise: Exercise, checked: boolean) => {
@@ -61,8 +47,8 @@ export const AddExercises: React.FC = () => {
       prevExercises.map((prev) =>
         prev.exercise === exercise
           ? { exercise: exercise, checked: checked, disabled: prev.disabled }
-          : prev
-      )
+          : prev,
+      ),
     );
   };
 
@@ -72,9 +58,9 @@ export const AddExercises: React.FC = () => {
         .filter(
           (exercise) =>
             exercise.checked === true &&
-            !exercisesStore.some((val) => val.exercise === exercise.exercise)
+            !exercisesStore.some((val) => val.exercise === exercise.exercise),
         )
-        .map((val) => val.exercise)
+        .map((val) => val.exercise),
     );
     navigation.goBack();
   };
@@ -83,9 +69,8 @@ export const AddExercises: React.FC = () => {
     <View className="flex-1">
       <View
         className={cn(
-          "absolute z-50 bottom-5 right-5 ",
-          !exerciseOptions.some((val) => val.checked && !val.disabled) &&
-            "invisible"
+          "absolute bottom-5 right-5 z-50",
+          !exerciseOptions.some((val) => val.checked && !val.disabled) && "invisible",
         )}
       >
         <Button onPress={handleAddExercises}>
@@ -101,12 +86,12 @@ export const AddExercises: React.FC = () => {
           aria-errormessage="inputError"
         />
       </View>
-      <View className="p-2  flex-1 w-full ">
+      <View className="w-full flex-1 p-2">
         <FlatList
           className="w-full"
           contentContainerClassName="pb-24"
           data={exerciseOptions.filter(({ exercise }) =>
-            searchedExercises.includes(exercise)
+            searchedExercises.includes(exercise),
           )}
           keyExtractor={({ exercise }) => exercise.id}
           renderItem={({ item }) => (

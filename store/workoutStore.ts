@@ -1,9 +1,9 @@
-import { Satellite } from "lucide-react-native";
-import { create } from "zustand";
 import { ExerciseCard } from "~/components/home/exercise-card";
 import { exercises } from "~/lib/exercises";
 import { swap } from "~/lib/utils";
-import { Exercise, ExerciseLog } from "~/types/exercise";
+import { Exercise, ExerciseLog, ExerciseSet } from "~/types/exercise";
+import { Satellite } from "lucide-react-native";
+import { create } from "zustand";
 
 type WorkoutStore = {
   exercises: ExerciseLog[];
@@ -12,6 +12,8 @@ type WorkoutStore = {
   addSet: (exercise: Exercise) => void;
   moveUpExercise: (exerciseIndex: number) => void;
   moveDownExercise: (exerciseIndex: number) => void;
+  updateSet: (exercise: ExerciseLog, setId: number, data: ExerciseSet) => void;
+  clear: () => void;
 };
 
 export const useWorkoutStore = create<WorkoutStore>((set) => ({
@@ -28,9 +30,7 @@ export const useWorkoutStore = create<WorkoutStore>((set) => ({
     })),
   removeExercises: (exercises) =>
     set((state) => ({
-      exercises: state.exercises.filter(
-        (val) => !exercises.includes(val.exercise)
-      ),
+      exercises: state.exercises.filter((val) => !exercises.includes(val.exercise)),
     })),
   addSet: (exercise) =>
     set((state) => ({
@@ -44,10 +44,11 @@ export const useWorkoutStore = create<WorkoutStore>((set) => ({
                   reps: 0,
                   time: 0,
                   weight: 0,
+                  done: false,
                 },
               ],
             }
-          : val
+          : val,
       ),
     })),
   moveUpExercise: (exerciseIndex) =>
@@ -57,5 +58,23 @@ export const useWorkoutStore = create<WorkoutStore>((set) => ({
   moveDownExercise: (exerciseIndex) =>
     set((state) => ({
       exercises: swap(state.exercises, exerciseIndex, exerciseIndex + 1),
+    })),
+  updateSet: (exercise: ExerciseLog, setId: number, data: ExerciseSet) =>
+    set((state) => ({
+      exercises: state.exercises.map<ExerciseLog>((exer) => {
+        if (exer.exercise.id !== exercise.exercise.id) {
+          return exer;
+        }
+        const res = {
+          sets: exer.sets.map((x, i) => (i === setId ? data : x)),
+          exercise: exer.exercise,
+        };
+        console.log(res);
+        return res;
+      }),
+    })),
+  clear: () =>
+    set(() => ({
+      exercises: [],
     })),
 }));

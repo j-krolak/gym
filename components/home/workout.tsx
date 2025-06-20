@@ -1,36 +1,36 @@
-import { KeyboardAvoidingView, Platform, View } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { Text } from "../ui/text";
-import { Button } from "../ui/button";
 import { useNavigation } from "@react-navigation/native";
+import { useWorkoutsHistoryStore } from "~/store/workout-history-store";
+import { View } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
+
 import { useWorkoutStore } from "../../store/workoutStore";
+import { Button } from "../ui/button";
+import { Text } from "../ui/text";
 import { ExerciseCard } from "./exercise-card";
-import { Exercise } from "~/types/exercise";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "../ui/dialog";
-import { useState } from "react";
 
 export function Workout() {
   const navigator = useNavigation();
-  const { exercises, moveDownExercise, moveUpExercise, removeExercises } =
-    useWorkoutStore();
+  const {
+    exercises,
+    moveDownExercise,
+    moveUpExercise,
+    removeExercises,
+    clear: clearWorkoutStorage,
+  } = useWorkoutStore();
+  const { addWorkout } = useWorkoutsHistoryStore();
+
+  const handleEndWorkout = async () => {
+    addWorkout({
+      date: new Date(),
+      exercises: exercises,
+    });
+    clearWorkoutStorage();
+  };
 
   return (
     <>
-      <ScrollView
-        className="bg-secondary/30 flex-1"
-        contentContainerClassName="py-6"
-      >
-        <View className="p-2 flex gap-5">
+      <ScrollView className="flex-1 bg-secondary/30" contentContainerClassName="py-6">
+        <View className="flex gap-5 p-2">
           {exercises.map((exercise, i) => (
             <ExerciseCard
               exerciseLog={exercise}
@@ -41,18 +41,21 @@ export function Workout() {
                   : undefined
               }
               onMoveUp={
-                exercises.length > 1 && i > 0
-                  ? moveUpExercise.bind(null, i)
-                  : undefined
+                exercises.length > 1 && i > 0 ? moveUpExercise.bind(null, i) : undefined
               }
               onDelete={removeExercises.bind(null, [exercise.exercise])}
             />
           ))}
         </View>
-        <View className="px-6 mt-6">
+        <View className="mt-6 gap-6 px-6">
           <Button onPress={() => navigator.navigate("Add exercises")}>
             <Text>Add exercises</Text>
           </Button>
+          {exercises.length > 0 && (
+            <Button variant={"outline"} onPress={handleEndWorkout}>
+              <Text>End workout</Text>
+            </Button>
+          )}
         </View>
       </ScrollView>
       {/* {showDeleteDialog && <DeleteExerciseDialog />} */}

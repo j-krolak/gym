@@ -1,17 +1,12 @@
 import { useTheme } from "@react-navigation/native";
 import { Tabs } from "expo-router";
-import Drawer from "expo-router/drawer";
 import {
   ChartNoAxesColumn,
   Dumbbell,
   Flame,
   History,
-  Home,
-  HomeIcon,
   Ruler,
-  RulerDimensionLine,
 } from "lucide-react-native";
-import { ThemeToggle } from "~/components/ThemeToggle";
 
 const ACTIVE_TABS_COLOR = "blue";
 
@@ -34,28 +29,16 @@ export default function RootLayout() {
               );
             case "history":
               return (
-                <History
-                  color={focused ? ACTIVE_TABS_COLOR : theme.colors.text}
-                />
+                <History color={focused ? ACTIVE_TABS_COLOR : theme.colors.text} />
               );
             case "index":
-              return (
-                <Flame
-                  color={focused ? ACTIVE_TABS_COLOR : theme.colors.text}
-                />
-              );
+              return <Flame color={focused ? ACTIVE_TABS_COLOR : theme.colors.text} />;
             case "exercises":
               return (
-                <Dumbbell
-                  color={focused ? ACTIVE_TABS_COLOR : theme.colors.text}
-                />
+                <Dumbbell color={focused ? ACTIVE_TABS_COLOR : theme.colors.text} />
               );
             case "measure":
-              return (
-                <Ruler
-                  color={focused ? ACTIVE_TABS_COLOR : theme.colors.text}
-                />
-              );
+              return <Ruler color={focused ? ACTIVE_TABS_COLOR : theme.colors.text} />;
           }
         },
       })}

@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { View, ViewProps } from "react-native";
-import { Exercise } from "~/types/exercise";
-import { Text } from "../ui/text";
+import React from "react";
 import { cn } from "~/lib/utils";
-import { Button } from "../ui/button";
+import { Exercise } from "~/types/exercise";
+import { View, ViewProps } from "react-native";
+
 import { Checkbox } from "../ui/checkbox";
+import { Text } from "../ui/text";
 
 type ExerciseButtonProps = ViewProps & {
   exercise: Exercise;
@@ -24,8 +24,8 @@ export const ExerciseButton: React.FC<ExerciseButtonProps> = ({
   return (
     <View
       className={cn(
-        "w-full border-b border-secondary py-4 px-2 flex flex-row justify-between items-center",
-        className
+        "flex w-full flex-row items-center justify-between border-b border-secondary px-2 py-4",
+        className,
       )}
       {...props}
       onTouchEnd={() => !disabled && onCheckedChange(!checked)}
