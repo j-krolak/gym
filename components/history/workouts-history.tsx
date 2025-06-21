@@ -1,5 +1,5 @@
-import { useEffect, useMemo } from "react";
-import { useNavigation } from "@react-navigation/native";
+import React, { useEffect, useMemo } from "react";
+import { StackScreenProps } from "@react-navigation/stack";
 import {
   Card,
   CardContent,
@@ -9,15 +9,17 @@ import {
 } from "~/components/ui/card";
 import { Text } from "~/components/ui/text";
 import { useWorkoutsHistoryStore } from "~/store/workout-history-store";
+import { HistoryScreenParamList } from "~/types/navigation";
 import { Dot } from "lucide-react-native";
 import { View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
 import { Button } from "../ui/button";
 
-export default function WorkoutsHistory() {
+type WorkoutsHistoryProps = StackScreenProps<HistoryScreenParamList, "History">;
+
+export const WorkoutsHistory: React.FC<WorkoutsHistoryProps> = ({ navigation }) => {
   const { workoutsHistory, loadHistory } = useWorkoutsHistoryStore();
-  const navigation = useNavigation();
   const sortedWorkoutsHistory = useMemo(
     () => workoutsHistory.sort((a, b) => (a.date < b.date ? 1 : -1)),
     [workoutsHistory],
@@ -67,7 +69,7 @@ export default function WorkoutsHistory() {
             <CardFooter className="flex justify-end">
               <Button
                 onPress={() =>
-                  navigation.navigate("Workout details", { workoutIndex: i })
+                  navigation.navigate("HistoryDetails", { workoutIndex: i })
                 }
               >
                 <Text>View details</Text>
@@ -78,4 +80,4 @@ export default function WorkoutsHistory() {
       </View>
     </ScrollView>
   );
-}
+};

@@ -1,5 +1,7 @@
-import { useNavigation } from "@react-navigation/native";
+import React from "react";
+import { StackScreenProps } from "@react-navigation/stack";
 import { useWorkoutsHistoryStore } from "~/store/workout-history-store";
+import { WorkoutScreenParamList } from "~/types/navigation";
 import { View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
@@ -9,8 +11,9 @@ import { Text } from "../ui/text";
 import { AnimatedChevronDown } from "./animated-chevron-down";
 import { ExerciseCard } from "./exercise-card";
 
-export function Workout() {
-  const navigator = useNavigation();
+type WorkoutProps = StackScreenProps<WorkoutScreenParamList, "Workout">;
+
+export const Workout: React.FC<WorkoutProps> = ({ navigation }) => {
   const {
     exercises,
     moveDownExercise,
@@ -61,7 +64,7 @@ export function Workout() {
           </View>
         )}
         <View className="mt-6 gap-6 px-6">
-          <Button onPress={() => navigator.navigate("Add exercises")}>
+          <Button onPress={() => navigation.navigate("AddExercise")}>
             <Text>Add exercises</Text>
           </Button>
           {exercises.length > 0 && (
@@ -73,4 +76,4 @@ export function Workout() {
       </ScrollView>
     </View>
   );
-}
+};

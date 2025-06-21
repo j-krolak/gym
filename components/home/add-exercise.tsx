@@ -1,9 +1,10 @@
 import React, { useCallback, useLayoutEffect, useMemo, useState } from "react";
+import { StackScreenProps } from "@react-navigation/stack";
 import { exercises } from "~/lib/exercises";
 import { cn } from "~/lib/utils";
 import { useWorkoutStore } from "~/store/workoutStore";
 import { Exercise } from "~/types/exercise";
-import { useNavigation } from "expo-router";
+import { WorkoutScreenParamList } from "~/types/navigation";
 import { Plus } from "lucide-react-native";
 import { FlatList, Pressable, View } from "react-native";
 
@@ -17,10 +18,11 @@ type ExerciseOption = {
   disabled: boolean;
 };
 
-export const AddExercises: React.FC = () => {
+type AddExerciseProps = StackScreenProps<WorkoutScreenParamList, "AddExercise">;
+
+export const AddExercises: React.FC<AddExerciseProps> = ({ navigation }) => {
   const { addExercises, exercises: exercisesStore } = useWorkoutStore();
   const [search, setSearch] = useState<string>("");
-  const navigation = useNavigation();
   const [exerciseOptions, setExerciseOptions] = useState<ExerciseOption[]>(
     exercises.map((exercise) => ({
       exercise: exercise,
@@ -41,25 +43,6 @@ export const AddExercises: React.FC = () => {
           ),
     [search],
   );
-
-  useLayoutEffect(() => {
-    const disabled = !exerciseOptions.some((val) => val.checked && !val.disabled);
-    navigation.setOptions({
-      headerRight: () => (
-        <Pressable
-          onPress={handleAddExercises}
-          className={cn(
-            "flex flex-row items-center justify-center gap-2 px-6",
-            disabled && "opacity-50",
-          )}
-        >
-          <Text className="text-lg font-semibold text-blue-500">Add</Text>
-
-          <Plus color={"#3b82f6"} size={17} strokeWidth={2.5} />
-        </Pressable>
-      ),
-    });
-  }, [navigation, exerciseOptions, handleAddExercises]);
 
   const handleExerciseCheck = (exercise: Exercise, checked: boolean) => {
     setExerciseOptions((prevExercises) =>
@@ -83,6 +66,25 @@ export const AddExercises: React.FC = () => {
     );
     navigation.goBack();
   }, [exerciseOptions, addExercises, navigation, exercisesStore]);
+
+  useLayoutEffect(() => {
+    const disabled = !exerciseOptions.some((val) => val.checked && !val.disabled);
+    navigation.setOptions({
+      headerRight: () => (
+        <Pressable
+          onPress={handleAddExercises}
+          className={cn(
+            "flex flex-row items-center justify-center gap-2 px-6",
+            disabled && "opacity-50",
+          )}
+        >
+          <Text className="text-lg font-semibold text-blue-500">Add</Text>
+
+          <Plus color={"#3b82f6"} size={17} strokeWidth={2.5} />
+        </Pressable>
+      ),
+    });
+  }, [navigation, exerciseOptions, handleAddExercises]);
 
   return (
     <View className="flex-1">
