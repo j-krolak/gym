@@ -254,6 +254,7 @@ const SetRow: React.FC<SetRowProps> = ({
             checked={data.done}
             onCheckedChange={handleInputChange.bind(null, "done")}
             disabled={disabled}
+            green
           />
         </View>
       </View>
