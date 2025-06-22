@@ -1,4 +1,4 @@
-import { ExerciseCard } from "~/components/home/exercise-card";
+import { ExerciseCard } from "~/components/shared/exercise-card";
 import { exercises } from "~/lib/exercises";
 import { swap } from "~/lib/utils";
 import { Exercise, ExerciseLog, ExerciseSet } from "~/types/exercise";

@@ -9,7 +9,11 @@ export default function HistoryScreen() {
   return (
     <Stack.Navigator>
       <Stack.Screen name="History" component={WorkoutsHistory} />
-      <Stack.Screen name="HistoryDetails" component={HistoryDetails} />
+      <Stack.Screen
+        name="HistoryDetails"
+        options={{ title: "" }}
+        component={HistoryDetails}
+      />
     </Stack.Navigator>
   );
 }

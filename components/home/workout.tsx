@@ -6,10 +6,10 @@ import { View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
 import { useWorkoutStore } from "../../store/workoutStore";
+import { ExerciseCard } from "../shared/exercise-card";
 import { Button } from "../ui/button";
 import { Text } from "../ui/text";
 import { AnimatedChevronDown } from "./animated-chevron-down";
-import { ExerciseCard } from "./exercise-card";
 
 type WorkoutProps = StackScreenProps<WorkoutScreenParamList, "Workout">;
 
