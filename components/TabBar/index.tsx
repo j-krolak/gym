@@ -1,4 +1,5 @@
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
+import { useColorScheme } from "~/lib/useColorScheme";
 import { BlurView } from "expo-blur";
 
 import { TabBarButton } from "./TabBarButton";
@@ -9,11 +10,15 @@ export const TabBar: React.FC<BottomTabBarProps> = ({
   navigation,
   state,
 }) => {
+  const { isDarkColorScheme } = useColorScheme();
+  const bluerViewTint: "dark" | "light" = isDarkColorScheme ? "dark" : "light";
+
   return (
     <BlurView
       intensity={90}
-      tint="dark"
-      className="absolute bottom-16 flex flex-row self-center overflow-hidden rounded-full"
+      tint={bluerViewTint}
+      className="absolute bottom-16 flex flex-row self-center overflow-hidden rounded-full border
+        border-border"
       experimentalBlurMethod="dimezisBlurView"
     >
       {state.routes.map((route, index) => {

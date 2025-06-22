@@ -29,11 +29,31 @@ export const WorkoutsHistory: React.FC<WorkoutsHistoryProps> = ({ navigation }) 
     loadHistory();
   }, []);
 
-  console.log(workoutsHistory);
-
+  let aiData = "";
+  workoutsHistory.map(
+    (workout) =>
+      (aiData +=
+        workout.date.toString() +
+        ": " +
+        workout.exercises.reduce(
+          (acc, val) =>
+            acc +
+            "; " +
+            val.exercise.name +
+            ": " +
+            val.sets.reduce(
+              (acc2, val2) =>
+                acc2 +
+                `set weight${val2.weight}kg, ${val2.reps} reps, ${val2.time} min`,
+              "",
+            ),
+          "",
+        )),
+  );
+  console.log(aiData);
   return (
     <ScrollView contentContainerStyle={{ paddingBottom: 150 }} className="flex-1">
-      <View className="flex gap-4 p-6">
+      <View className="flex gap-4 p-4">
         {sortedWorkoutsHistory?.map((workout, i) => (
           <Card key={workout.date.toString()}>
             <CardHeader>

@@ -6,7 +6,7 @@ const Stack = createStackNavigator();
 
 export default function StatsScreen() {
   return (
-    <Stack.Navigator screenOptions={{ headerTitleAlign: "center" }}>
+    <Stack.Navigator>
       <Stack.Screen name="Stats" component={Stats} />
     </Stack.Navigator>
   );

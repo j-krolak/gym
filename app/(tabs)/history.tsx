@@ -7,7 +7,7 @@ const Stack = createStackNavigator<HistoryScreenParamList>();
 
 export default function HistoryScreen() {
   return (
-    <Stack.Navigator screenOptions={{ headerTitleAlign: "center" }}>
+    <Stack.Navigator>
       <Stack.Screen name="History" component={WorkoutsHistory} />
       <Stack.Screen name="HistoryDetails" component={HistoryDetails} />
     </Stack.Navigator>

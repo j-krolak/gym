@@ -1,18 +1,39 @@
 import { useEffect, useMemo } from "react";
 import { useWorkoutsHistoryStore } from "~/store/workout-history-store";
 import { View } from "react-native";
-import { ContributionGraph } from "react-native-chart-kit";
 
-const chartConfig = {
-  backgroundGradientFrom: "#1E2923",
-  backgroundGradientFromOpacity: 0,
-  backgroundGradientTo: "#08130D",
-  backgroundGradientToOpacity: 0,
-  color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-  strokeWidth: 2, // optional, default 3
-  barPercentage: 0.5,
-  useShadowColorFromDataset: false, // optional
-};
+import HeatmapGraph from "../shared/HeatmapGraph";
+
+const mockData = [
+  { date: "2025-05-25", count: 3 },
+  { date: "2025-05-26", count: 7 },
+  { date: "2025-05-27", count: 0 },
+  { date: "2025-05-28", count: 11 },
+  { date: "2025-05-29", count: 2 },
+  { date: "2025-05-30", count: 8 },
+  { date: "2025-05-31", count: 1 },
+  { date: "2025-06-01", count: 6 },
+  { date: "2025-06-02", count: 10 },
+  { date: "2025-06-03", count: 4 },
+  { date: "2025-06-04", count: 12 },
+  { date: "2025-06-05", count: 5 },
+  { date: "2025-06-06", count: 9 },
+  { date: "2025-06-07", count: 0 },
+  { date: "2025-06-08", count: 7 },
+  { date: "2025-06-09", count: 3 },
+  { date: "2025-06-10", count: 11 },
+  { date: "2025-06-11", count: 2 },
+  { date: "2025-06-12", count: 8 },
+  { date: "2025-06-13", count: 1 },
+  { date: "2025-06-14", count: 6 },
+  { date: "2025-06-15", count: 10 },
+  { date: "2025-06-16", count: 20 },
+  { date: "2025-06-17", count: 12 },
+  { date: "2025-06-18", count: 5 },
+  { date: "2025-06-19", count: 25 },
+  { date: "2025-06-20", count: 0 },
+  { date: "2025-06-21", count: 7 },
+];
 
 export const WorkoutsHeatmap = () => {
   const { workoutsHistory, loadHistory } = useWorkoutsHistoryStore();
@@ -45,22 +66,10 @@ export const WorkoutsHeatmap = () => {
 
   const commitsData = useMemo(getHeatmapData, [workoutsHistory, getHeatmapData]);
 
-  console.log(commitsData);
-
   return (
     <View>
-      <ContributionGraph
-        values={commitsData}
-        endDate={new Date("2025-06-30")}
-        numDays={100}
-        width={500}
-        height={220}
-        tooltipDataAttrs={(val) => {
-          console.log(val);
-          return {};
-        }}
-        chartConfig={chartConfig}
-      />
+      <View className="flex flex-row flex-wrap"></View>
+      <HeatmapGraph data={mockData} endDate={new Date()} className="mt-5" />
     </View>
   );
 };
