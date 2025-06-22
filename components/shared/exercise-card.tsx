@@ -215,7 +215,7 @@ const SetRow: React.FC<SetRowProps> = ({
         {exercise.fields?.time && (
           <Input
             textAlign="center"
-            className="!w-20 border-0 bg-background/50 !opacity-100"
+            className="bg-transparents !w-20 !opacity-100"
             value={data.time === 0 ? "" : data.time.toString()}
             onChangeText={handleInputChange.bind(null, "time")}
             aria-labelledby="inputLabel"
@@ -226,8 +226,8 @@ const SetRow: React.FC<SetRowProps> = ({
         )}
         {exercise.fields?.weight && (
           <Input
-            textAlign="center"
-            className="!w-20 border-0 bg-background/50 !opacity-100"
+            textAlign={"center"}
+            className="!w-20 bg-transparent !opacity-100"
             value={data.weight === 0 ? "" : data.weight.toString()}
             onChangeText={handleInputChange.bind(null, "weight")}
             aria-labelledby="inputLabel"
@@ -239,7 +239,7 @@ const SetRow: React.FC<SetRowProps> = ({
         {exercise.fields?.reps && (
           <Input
             textAlign="center"
-            className="!w-20 border-0 bg-background/50 !opacity-100"
+            className="!w-20 bg-transparent !opacity-100"
             value={data.reps === 0 ? "" : data.reps.toString()}
             onChangeText={handleInputChange.bind(null, "reps")}
             aria-labelledby="inputLabel"
