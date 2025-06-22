@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo } from "react";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import { StackScreenProps } from "@react-navigation/stack";
 import {
   Card,
@@ -29,28 +30,6 @@ export const WorkoutsHistory: React.FC<WorkoutsHistoryProps> = ({ navigation }) 
     loadHistory();
   }, []);
 
-  let aiData = "";
-  workoutsHistory.map(
-    (workout) =>
-      (aiData +=
-        workout.date.toString() +
-        ": " +
-        workout.exercises.reduce(
-          (acc, val) =>
-            acc +
-            "; " +
-            val.exercise.name +
-            ": " +
-            val.sets.reduce(
-              (acc2, val2) =>
-                acc2 +
-                `set weight${val2.weight}kg, ${val2.reps} reps, ${val2.time} min`,
-              "",
-            ),
-          "",
-        )),
-  );
-  console.log(aiData);
   return (
     <ScrollView contentContainerStyle={{ paddingBottom: 150 }} className="flex-1">
       <View className="flex gap-4 p-4">
@@ -58,11 +37,23 @@ export const WorkoutsHistory: React.FC<WorkoutsHistoryProps> = ({ navigation }) 
           <Card key={workout.date.toString()}>
             <CardHeader>
               <View className="flex flex-row items-baseline justify-between">
-                <CardTitle>
-                  {workout.date.toLocaleDateString("en-GB", {
-                    weekday: "long",
-                  })}
-                </CardTitle>
+                <View className="flex flex-row gap-2">
+                  <CardTitle>
+                    {workout.date.toLocaleDateString("en-GB", {
+                      weekday: "long",
+                    })}
+                  </CardTitle>
+                  <View className="flex flex-row">
+                    <Ionicons name="flame" color={"red"} size={20} />
+                    <Text>
+                      {workout.exercises.reduce(
+                        (accu, val) => accu + val.sets.length,
+                        0,
+                      )}
+                    </Text>
+                  </View>
+                </View>
+
                 <Text className="text-muted-foreground">
                   {workout.date.toLocaleDateString("en-GB", {
                     day: "2-digit",
@@ -91,6 +82,7 @@ export const WorkoutsHistory: React.FC<WorkoutsHistoryProps> = ({ navigation }) 
                 onPress={() =>
                   navigation.navigate("HistoryDetails", { workoutIndex: i })
                 }
+                className="flex flex-row gap-2"
               >
                 <Text>View details</Text>
               </Button>

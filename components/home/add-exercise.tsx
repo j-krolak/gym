@@ -8,7 +8,7 @@ import { WorkoutScreenParamList } from "~/types/navigation";
 import { Plus } from "lucide-react-native";
 import { FlatList, Pressable, View } from "react-native";
 
-import { Input } from "../ui/input";
+import { SearchInput } from "../ui/search-input";
 import { Text } from "../ui/text";
 import { ExerciseButton } from "./exercise-button";
 
@@ -89,7 +89,7 @@ export const AddExercises: React.FC<AddExerciseProps> = ({ navigation }) => {
   return (
     <View className="flex-1">
       <View className="p-6">
-        <Input
+        <SearchInput
           placeholder="Search..."
           value={search}
           onChangeText={setSearch}
