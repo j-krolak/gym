@@ -8,9 +8,9 @@ import { WorkoutScreenParamList } from "~/types/navigation";
 import { Plus } from "lucide-react-native";
 import { FlatList, Pressable, View } from "react-native";
 
-import { SearchInput } from "../ui/search-input";
-import { Text } from "../ui/text";
-import { ExerciseButton } from "./exercise-button";
+import { SearchInput } from "../../components/ui/search-input";
+import { Text } from "../../components/ui/text";
+import { ExerciseButton } from "../../components/workout/exercise-button";
 
 type ExerciseOption = {
   exercise: Exercise;
@@ -20,7 +20,7 @@ type ExerciseOption = {
 
 type AddExerciseProps = StackScreenProps<WorkoutScreenParamList, "AddExercise">;
 
-export const AddExercises: React.FC<AddExerciseProps> = ({ navigation }) => {
+export const AddExercisesScreen: React.FC<AddExerciseProps> = ({ navigation }) => {
   const { addExercises, exercises: exercisesStore } = useWorkoutStore();
   const [search, setSearch] = useState<string>("");
   const [exerciseOptions, setExerciseOptions] = useState<ExerciseOption[]>(

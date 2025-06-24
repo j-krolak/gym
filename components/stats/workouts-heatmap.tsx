@@ -2,7 +2,7 @@ import { useEffect, useMemo } from "react";
 import { useWorkoutsHistoryStore } from "~/store/workout-history-store";
 import { View } from "react-native";
 
-import HeatmapGraph from "../shared/HeatmapGraph";
+import HeatmapGraph from "../shared/heatmap-graph";
 
 const mockData = [
   { date: "2025-05-25", count: 3 },

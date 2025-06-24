@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo } from "react";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { StackScreenProps } from "@react-navigation/stack";
+import { Button } from "~/components/ui/button";
 import {
   Card,
   CardContent,
@@ -15,11 +16,9 @@ import { Dot } from "lucide-react-native";
 import { View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
-import { Button } from "../ui/button";
+type HistoryScreenProps = StackScreenProps<HistoryScreenParamList, "History">;
 
-type WorkoutsHistoryProps = StackScreenProps<HistoryScreenParamList, "History">;
-
-export const WorkoutsHistory: React.FC<WorkoutsHistoryProps> = ({ navigation }) => {
+export const HistoryScreen: React.FC<HistoryScreenProps> = ({ navigation }) => {
   const { workoutsHistory, loadHistory } = useWorkoutsHistoryStore();
   const sortedWorkoutsHistory = useMemo(
     () => workoutsHistory.sort((a, b) => (a.date < b.date ? 1 : -1)),

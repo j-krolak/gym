@@ -1,13 +1,13 @@
 import * as React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import { Stats } from "~/components/stats/stats";
+import { StatsScreen } from "~/screens/stats/stats-screen";
 
 const Stack = createStackNavigator();
 
-export default function StatsScreen() {
+export default function StatsTab() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Stats" component={Stats} />
+      <Stack.Screen name="Stats" component={StatsScreen} />
     </Stack.Navigator>
   );
 }

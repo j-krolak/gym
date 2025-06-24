@@ -1,15 +1,14 @@
 import React from "react";
 import { StackScreenProps } from "@react-navigation/stack";
+import { ExerciseCard } from "~/components/shared/exercise-card";
 import { useWorkoutsHistoryStore } from "~/store/workout-history-store";
 import { HistoryScreenParamList } from "~/types/navigation";
 import { View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
-import { ExerciseCard } from "../shared/exercise-card";
-
 type HistoryDetailsProps = StackScreenProps<HistoryScreenParamList, "HistoryDetails">;
 
-export const HistoryDetails: React.FC<HistoryDetailsProps> = ({ route }) => {
+export const HistoryDetailsScreen: React.FC<HistoryDetailsProps> = ({ route }) => {
   const { workoutsHistory } = useWorkoutsHistoryStore();
   const { workoutIndex } = route.params;
 

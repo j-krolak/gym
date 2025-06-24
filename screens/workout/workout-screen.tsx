@@ -5,15 +5,15 @@ import { WorkoutScreenParamList } from "~/types/navigation";
 import { View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
+import { ExerciseCard } from "../../components/shared/exercise-card";
+import { Button } from "../../components/ui/button";
+import { Text } from "../../components/ui/text";
+import { AnimatedChevronDown } from "../../components/workout/animated-chevron-down";
 import { useWorkoutStore } from "../../store/workoutStore";
-import { ExerciseCard } from "../shared/exercise-card";
-import { Button } from "../ui/button";
-import { Text } from "../ui/text";
-import { AnimatedChevronDown } from "./animated-chevron-down";
 
 type WorkoutProps = StackScreenProps<WorkoutScreenParamList, "Workout">;
 
-export const Workout: React.FC<WorkoutProps> = ({ navigation }) => {
+export const WorkoutScreen: React.FC<WorkoutProps> = ({ navigation }) => {
   const {
     exercises,
     moveDownExercise,

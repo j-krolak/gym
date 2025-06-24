@@ -2,11 +2,10 @@ import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import { useColorScheme } from "~/lib/useColorScheme";
 import { BlurView } from "expo-blur";
 
-import { TabBarButton } from "./TabBarButton";
+import { TabBarButton } from "./tab-bar-button";
 
 export const TabBar: React.FC<BottomTabBarProps> = ({
   descriptors,
-  insets,
   navigation,
   state,
 }) => {
